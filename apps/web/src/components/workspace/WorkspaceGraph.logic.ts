@@ -58,9 +58,13 @@ export function buildWorkspaceGraph(input: {
     if (!node) continue;
     if (
       query &&
-      ![thread.title, thread.branch, node.project.title, node.project.workspaceRoot].some((text) =>
-        text?.toLocaleLowerCase().includes(query),
-      )
+      ![
+        thread.title,
+        thread.branch,
+        thread.worktreePath,
+        node.project.title,
+        node.project.workspaceRoot,
+      ].some((text) => text?.toLocaleLowerCase().includes(query))
     )
       continue;
     node.threads.push(thread);
@@ -95,6 +99,42 @@ export function buildWorkspaceGraph(input: {
           a.project.id.localeCompare(b.project.id),
       ),
   }));
+}
+
+/** Threads sharing a worktree become one branch of the tree; a worktree with one thread stays a leaf. */
+export function groupThreadsByWorktree(threads: ReadonlyArray<EnvironmentThreadShell>) {
+  const shared = new Map<string, EnvironmentThreadShell[]>();
+  for (const thread of threads) {
+    if (!thread.worktreePath) continue;
+    shared.set(thread.worktreePath, [...(shared.get(thread.worktreePath) ?? []), thread]);
+  }
+  const items: Array<
+    | { readonly kind: "thread"; readonly thread: EnvironmentThreadShell }
+    | {
+        readonly kind: "worktree";
+        readonly path: string;
+        readonly label: string;
+        readonly threads: ReadonlyArray<EnvironmentThreadShell>;
+      }
+  > = [];
+  for (const thread of threads) {
+    const path = thread.worktreePath;
+    const siblings = path ? shared.get(path) : undefined;
+    if (!path || !siblings || siblings.length < 2) {
+      items.push({ kind: "thread", thread });
+    } else if (siblings[0] === thread) {
+      items.push({
+        kind: "worktree",
+        path,
+        label:
+          siblings.find((sibling) => sibling.branch)?.branch ??
+          path.split(/[\\/]/).findLast(Boolean) ??
+          path,
+        threads: siblings,
+      });
+    }
+  }
+  return items;
 }
 
 export function scratchPromotionCandidates(input: {

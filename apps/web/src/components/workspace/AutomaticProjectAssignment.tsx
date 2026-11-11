@@ -11,7 +11,7 @@ import { useAtomCommand } from "../../state/use-atom-command";
 import { scratchPromotionCandidates } from "./WorkspaceGraph.logic";
 
 export function useAutomaticProjectAssignment() {
-  return useLocalStorage("t3code:auto-assign-scratch-projects:v1", false, Schema.Boolean);
+  return useLocalStorage("t3code:auto-assign-scratch-projects:v1", true, Schema.Boolean);
 }
 
 export function AutomaticProjectAssignment() {

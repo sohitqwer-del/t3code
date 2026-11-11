@@ -104,6 +104,11 @@ it("filters across environments and keeps linked follow-ups and completion state
   await page.viewport(1280, 960);
   await using screen = await render(<WorkspaceGraph />);
   await expect.element(screen.getByRole("heading", { name: "Design server" })).toBeVisible();
+  await userEvent.click(screen.getByRole("button", { name: "Collapse Desktop" }));
+  await expect
+    .element(screen.getByRole("link", { name: "Review navigation" }))
+    .not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole("button", { name: "Expand Desktop" }));
   await userEvent.click(
     screen.getByRole("button", { name: "Add Review navigation to to-do list" }),
   );

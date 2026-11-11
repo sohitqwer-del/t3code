@@ -7,19 +7,21 @@ need a separate branch and working directory.
 
 ### Workspace graph
 
-On web and desktop, the home page shows environments, projects, and loaded threads
-in a workspace graph. Open **Workspace graph** from the sidebar or command palette
-to return to it. Search by project, thread, or branch, or filter for work that needs
+On web and desktop, the home page shows your work as a tree: environments, their
+projects, and each project's threads. Threads that share a worktree sit together under
+that worktree. Open **Workspace graph** from the sidebar or command palette to return
+to it. Search by project, thread, branch, or folder, or filter for work that needs
 attention. Disconnected environments remain visible; their thread state may be stale.
 
 Use the to-do list to save next steps or link a thread for follow-up. To-dos are saved
 in this browser and do not sync to other devices.
 
-Enable **Automatically assign projects** to turn stopped, unassigned scratch folders
-into projects while the client is open. Threads in the same folder move together,
-and files stay in place. This applies to supported, connected environments where you
-can change projects. The choice is saved in this browser. Turn it off to stop future
-assignments. Existing projects remain; retry a failed assignment with **Make project**.
+**Assign projects automatically** is on by default. When a **No project** thread stops,
+its folder becomes a project named after the thread, so it shows up in project lists
+and search. Threads in the same folder move together, and files stay in place. This
+runs on supported, connected environments where you can change projects, while the
+client is open. Turn it off in the workspace graph to keep new threads in
+**No project**; projects already created remain.
 
 On web and desktop, **New thread** opens the project picker when you have more than one
 open project in the default or project-grouped sidebar. Archived projects don't count. **Shift-click** to start in

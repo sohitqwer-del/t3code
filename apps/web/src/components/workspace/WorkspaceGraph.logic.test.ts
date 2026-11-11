@@ -4,6 +4,7 @@ import type { EnvironmentProject } from "@t3tools/client-runtime/state/models";
 import { makeThreadFixture } from "../../test-fixtures";
 import {
   buildWorkspaceGraph,
+  groupThreadsByWorktree,
   scratchPromotionCandidates,
   workspaceThreadState,
 } from "./WorkspaceGraph.logic";
@@ -112,6 +113,32 @@ describe("workspace graph", () => {
       buildWorkspaceGraph({ ...graphInput(), threads: [idle, working] })[0]?.projects[0]?.threads[0]
         ?.id,
     ).toBe(working.id);
+  });
+
+  it("nests threads that share a worktree and finds them by worktree folder", () => {
+    const solo = { ...thread(), id: ThreadId.make("solo"), worktreePath: "/wt/solo" };
+    const first = {
+      ...thread(),
+      id: ThreadId.make("first"),
+      branch: null,
+      worktreePath: "C:\\wt\\pair",
+    };
+    const second = { ...first, id: ThreadId.make("second"), branch: "feat/pair" };
+    const root = { ...thread(), id: ThreadId.make("root"), worktreePath: null };
+    expect(
+      groupThreadsByWorktree([first, solo, root, second]).map((item) =>
+        item.kind === "worktree"
+          ? [item.label, item.threads.map((entry) => entry.id)]
+          : item.thread.id,
+      ),
+    ).toEqual([["feat/pair", [first.id, second.id]], solo.id, root.id]);
+    expect(groupThreadsByWorktree([first, { ...first, id: second.id }])[0]).toMatchObject({
+      label: "pair",
+    });
+    expect(
+      buildWorkspaceGraph({ ...graphInput(), threads: [solo, root], query: "wt/solo" })[0]
+        ?.projects[0]?.threads,
+    ).toEqual([solo]);
   });
 });
 
