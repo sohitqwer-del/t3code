@@ -1264,6 +1264,17 @@ function OpenCommandPaletteDialog(props: {
 
   const actionItems: Array<CommandPaletteActionItem | CommandPaletteSubmenuItem> = [];
 
+  actionItems.push({
+    kind: "action",
+    value: "action:workspace-graph",
+    title: "Workspace graph",
+    searchTerms: ["home", "graph", "projects", "environments", "to do", "dashboard"],
+    icon: <FolderIcon className={ITEM_ICON_CLASS} />,
+    run: async () => {
+      await navigate({ to: "/" });
+    },
+  });
+
   if (projects.length > 0) {
     const activeProjectTitle =
       projectPickerEntries.find((entry) => entry.isPreferred)?.group.displayName ??

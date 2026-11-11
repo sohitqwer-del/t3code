@@ -5,6 +5,22 @@ need a separate branch and working directory.
 
 ## Start a thread
 
+### Workspace graph
+
+On web and desktop, the home page shows environments, projects, and loaded threads
+in a workspace graph. Open **Workspace graph** from the sidebar or command palette
+to return to it. Search by project, thread, or branch, or filter for work that needs
+attention. Disconnected environments remain visible; their thread state may be stale.
+
+Use the to-do list to save next steps or link a thread for follow-up. To-dos are saved
+in this browser and do not sync to other devices.
+
+Enable **Automatically assign projects** to turn stopped, unassigned scratch folders
+into projects while the client is open. Threads in the same folder move together,
+and files stay in place. This applies to supported, connected environments where you
+can change projects. The choice is saved in this browser. Turn it off to stop future
+assignments. Existing projects remain; retry a failed assignment with **Make project**.
+
 On web and desktop, **New thread** opens the project picker when you have more than one
 open project in the default or project-grouped sidebar. Archived projects don't count. **Shift-click** to start in
 the current project, or use a project's own new-thread action. A new thread carries

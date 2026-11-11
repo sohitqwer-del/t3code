@@ -9,6 +9,7 @@ import { resolveThreadRouteTarget, type ThreadRouteTarget } from "../threadRoute
 import { retainThreadFindForRoute } from "../components/chat/threadFindStore";
 import { ThreadLinkPrompt } from "../components/promptLinks/ThreadLinkPrompt";
 import { useThreadRouteTarget } from "../hooks/useThreadRouteTarget";
+import { AutomaticProjectAssignment } from "../components/workspace/AutomaticProjectAssignment";
 
 function threadRouteTargetKey(target: ThreadRouteTarget | null) {
   if (!target) return null;
@@ -30,6 +31,7 @@ function ChatRouteLayout() {
   const shownTarget = modalOpen ? backgroundTarget : threadTarget;
   return (
     <>
+      <AutomaticProjectAssignment />
       {shownTarget?.kind === "server" && !modalOpen ? (
         <ThreadLinkPrompt threadRef={shownTarget.threadRef} />
       ) : null}
