@@ -66,6 +66,7 @@ import {
   ChevronDownIcon,
   FolderIcon,
   ListFilterIcon,
+  NetworkIcon,
   PlusIcon,
   SettingsIcon,
 } from "lucide-react";
@@ -2972,6 +2973,16 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
         className="min-h-full"
         fixedHeader={
           <SidebarGroup className="z-[1]">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                if (isMobile) setOpenMobile(false);
+                void router.navigate({ to: "/" });
+              }}
+            >
+              <NetworkIcon />
+              Workspace graph
+            </Button>
             <SidebarThreadHeader
               hasProjects={projectGroups.length > 0}
               projectScope={
